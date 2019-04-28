@@ -43,6 +43,10 @@ namespace DiscordRPGBot.Microservices
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            var connectionString = Configuration["DatabaseSettings:ConnectionString"];
+
+            Console.WriteLine(connectionString);
         }
     }
 }
