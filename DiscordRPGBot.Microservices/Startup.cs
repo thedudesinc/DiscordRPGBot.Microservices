@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DiscordRPGBot.BusinessLogic.Models;
+using DiscordRPGBot.BusinessLogic.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace DiscordRPGBot.Microservices
 {
@@ -26,6 +21,17 @@ namespace DiscordRPGBot.Microservices
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.Configure<Settings>(options =>
+            {
+                options.ConnectionString
+                    = Configuration.GetSection("MongoContext:ConnectionString").Value;
+                options.Database
+                    = Configuration.GetSection("MongoContext:Database").Value;
+            });
+
+            // DI
+            services.AddTransient<IDiscordRPGBotRepository, DiscordRPGBotRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,10 +49,6 @@ namespace DiscordRPGBot.Microservices
 
             app.UseHttpsRedirection();
             app.UseMvc();
-
-            var connectionString = Configuration["DatabaseSettings:ConnectionString"];
-
-            Console.WriteLine(connectionString);
         }
     }
 }
