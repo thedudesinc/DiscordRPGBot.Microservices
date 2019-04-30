@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace DiscordRPGBot.Microservices
 {
@@ -30,6 +31,11 @@ namespace DiscordRPGBot.Microservices
                     = Configuration.GetSection("MongoContext:Database").Value;
             });
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "DiscordRPGBot API", Version = "v1" });
+            });
+
             // DI
             services.AddTransient<IDiscordRPGBotRepository, DiscordRPGBotRepository>();
         }
@@ -49,6 +55,11 @@ namespace DiscordRPGBot.Microservices
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DiscordRPGBot API V1");
+            });
         }
     }
 }
