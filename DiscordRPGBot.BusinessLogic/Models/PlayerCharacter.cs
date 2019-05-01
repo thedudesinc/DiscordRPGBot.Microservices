@@ -11,7 +11,6 @@ namespace DiscordRPGBot.BusinessLogic.Models
         [JsonIgnore]
         public ObjectId InternalId { get; set; }
 
-        [JsonIgnore]
         public long Id { get; set; }
 
         public string DiscordId { get; set; }
