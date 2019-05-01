@@ -26,9 +26,9 @@ namespace DiscordRPGBot.Microservices
             services.Configure<Settings>(options =>
             {
                 options.ConnectionString
-                    = Configuration.GetSection("MongoContext:ConnectionString").Value;
+                    = Configuration.GetSection("Data:DefaultConnection:ConnectionString").Value;
                 options.Database
-                    = Configuration.GetSection("MongoContext:Database").Value;
+                    = Configuration.GetSection("Data:DefaultConnection:Database").Value;
             });
 
             services.AddSwaggerGen(c =>
