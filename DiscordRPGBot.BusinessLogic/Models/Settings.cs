@@ -5,5 +5,6 @@ namespace DiscordRPGBot.BusinessLogic.Models
     {
         public string ConnectionString { get; set; }
         public string Database { get; set; }
+        public string ApiKey { get; set; }
     }
 }

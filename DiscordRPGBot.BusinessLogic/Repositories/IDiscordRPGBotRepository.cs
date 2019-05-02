@@ -8,14 +8,14 @@ namespace DiscordRPGBot.BusinessLogic.Repositories
     {      
         Task<IEnumerable<PlayerCharacter>> GetAllPlayerCharacters();
 
-        Task<PlayerCharacter> GetPlayerCharacter(long id);
+        Task<PlayerCharacter> GetPlayerCharacter(string discordId);
 
         Task<long> AddPlayerCharacter(PlayerCharacter item);
 
-        Task<bool> RemovePlayerCharacter(long id);
+        Task<bool> RemovePlayerCharacter(string discordId);
 
-        Task<bool> UpdatePlayerCharacter(long id, string characterName);
+        Task<bool> UpdatePlayerCharacter(string discordId, string characterName);
 
-        Task<bool> UpdatePlayerCharacterDocument(long id, string characterName);
+        Task<bool> UpdatePlayerCharacterDocument(string discordId, string characterName);
     }
 }

@@ -34,12 +34,12 @@ namespace DiscordRPGBot.BusinessLogic.Repositories
             }
         }
 
-        public async Task<PlayerCharacter> GetPlayerCharacter(long id)
+        public async Task<PlayerCharacter> GetPlayerCharacter(string discordId)
         {
             try
             {
                 return await _context.PlayerCharacters
-                                .Find(PlayerCharacter => PlayerCharacter.Id == id)
+                                .Find(PlayerCharacter => PlayerCharacter.DiscordId == discordId)
                                 .FirstOrDefaultAsync();
             }
             catch (Exception ex)
@@ -64,13 +64,13 @@ namespace DiscordRPGBot.BusinessLogic.Repositories
             }
         }
 
-        public async Task<bool> RemovePlayerCharacter(long id)
+        public async Task<bool> RemovePlayerCharacter(string discordId)
         {
             try
             {
                 DeleteResult actionResult
                     = await _context.PlayerCharacters.DeleteOneAsync(
-                        Builders<PlayerCharacter>.Filter.Eq("Id", id));
+                        Builders<PlayerCharacter>.Filter.Eq("DiscordId", discordId));
 
                 return actionResult.IsAcknowledged
                     && actionResult.DeletedCount > 0;
@@ -82,9 +82,9 @@ namespace DiscordRPGBot.BusinessLogic.Repositories
             }
         }
 
-        public async Task<bool> UpdatePlayerCharacter(long id, string characterName)
+        public async Task<bool> UpdatePlayerCharacter(string discordId, string characterName)
         {
-            var filter = Builders<PlayerCharacter>.Filter.Eq(s => s.Id, id);
+            var filter = Builders<PlayerCharacter>.Filter.Eq(s => s.DiscordId, discordId);
             var update = Builders<PlayerCharacter>.Update
                             .Set(s => s.CharacterName, characterName)
                             .CurrentDate(s => s.UpdatedOn);
@@ -104,13 +104,13 @@ namespace DiscordRPGBot.BusinessLogic.Repositories
             }
         }
 
-        public async Task<bool> UpdatePlayerCharacter(long id, PlayerCharacter item)
+        public async Task<bool> UpdatePlayerCharacter(string discordId, PlayerCharacter item)
         {
             try
             {
                 ReplaceOneResult actionResult
                     = await _context.PlayerCharacters
-                                    .ReplaceOneAsync(n => n.Id.Equals(id), item, new UpdateOptions { IsUpsert = true });
+                                    .ReplaceOneAsync(n => n.DiscordId.Equals(discordId), item, new UpdateOptions { IsUpsert = true });
                 return actionResult.IsAcknowledged
                     && actionResult.ModifiedCount > 0;
             }
@@ -121,13 +121,13 @@ namespace DiscordRPGBot.BusinessLogic.Repositories
             }
         }
 
-        public async Task<bool> UpdatePlayerCharacterDocument(long id, string characterName)
+        public async Task<bool> UpdatePlayerCharacterDocument(string discordId, string characterName)
         {
-            var item = await GetPlayerCharacter(id) ?? new PlayerCharacter();
+            var item = await GetPlayerCharacter(discordId) ?? new PlayerCharacter();
             item.CharacterName = characterName;
             item.UpdatedOn = DateTime.Now;
 
-            return await UpdatePlayerCharacter(id, item);
+            return await UpdatePlayerCharacter(discordId, item);
         }
 
         public long AddCounter(string documentName)

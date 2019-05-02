@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DiscordRPGBot.BusinessLogic.Models;
 using DiscordRPGBot.BusinessLogic.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiscordRPGBot.Microservices.Controllers
@@ -26,10 +27,10 @@ namespace DiscordRPGBot.Microservices.Controllers
         }
 
         // GET api/playercharacter/5
-        [HttpGet("{id}")]
-        public async Task<PlayerCharacter> Get(long id)
+        [HttpGet("{discordId}")]
+        public async Task<PlayerCharacter> Get(string discordId)
         {
-            return await _repository.GetPlayerCharacter(id) ?? new PlayerCharacter();
+            return await _repository.GetPlayerCharacter(discordId) ?? new PlayerCharacter();
         }
 
         // POST api/playercharacter
@@ -41,17 +42,17 @@ namespace DiscordRPGBot.Microservices.Controllers
         }
 
         // PUT api/playercharacter/5
-        [HttpPut("{id}")]
-        public void Put(long id, [FromBody] string characterName)
+        [HttpPut("{discordId}")]
+        public void Put(string discordId, [FromBody] string characterName)
         {
-            _repository.UpdatePlayerCharacterDocument(id, characterName);
+            _repository.UpdatePlayerCharacterDocument(discordId, characterName);
         }
 
         // DELETE api/playercharacter/5
-        [HttpDelete("{id}")]
-        public void Delete(long id)
+        [HttpDelete("{discordId}")]
+        public void Delete(string discordId)
         {
-            _repository.RemovePlayerCharacter(id);
+            _repository.RemovePlayerCharacter(discordId);
         }
     }
 }
