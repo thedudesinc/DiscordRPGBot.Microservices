@@ -21,6 +21,7 @@ namespace DiscordRPGBot.BusinessLogic.Repositories
 
 
         //PUBLIC METHODS
+
         public async Task<IEnumerable<PlayerCharacter>> GetAllPlayerCharacters()
         {
             try

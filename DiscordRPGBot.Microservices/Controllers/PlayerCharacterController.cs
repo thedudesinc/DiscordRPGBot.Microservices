@@ -35,6 +35,30 @@ namespace DiscordRPGBot.Microservices.Controllers
 
         // POST api/playercharacter
         [HttpPost]
+        public async Task<long> Post([FromBody] )
+        {
+            var id = await _repository.AddPlayerCharacter(pc);
+            return id;
+        }
+
+        // POST api/playercharacter
+        [HttpPost]
+        public async Task<long> Post([FromBody] PlayerCharacter pc)
+        {
+            var id = await _repository.AddPlayerCharacter(pc);
+            return id;
+        }
+
+        // POST api/playercharacter
+        [HttpPost]
+        public async Task<long> Post([FromBody] PlayerCharacter pc)
+        {
+            var id = await _repository.AddPlayerCharacter(pc);
+            return id;
+        }
+
+        // POST api/playercharacter
+        [HttpPost]
         public async Task<long> Post([FromBody] PlayerCharacter pc)
         {
             var id = await _repository.AddPlayerCharacter(pc);
